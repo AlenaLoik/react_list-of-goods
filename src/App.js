@@ -18,34 +18,34 @@ const goodsFromServer = [
 class App extends React.Component {
   state = {
     vievContent: 1,
-    maxLength: 10,
+    minLength: 1,
     goods: [...goodsFromServer],
   };
 
   changeLength = (event) => {
     this.setState({
-      maxLength: event.target.value,
+      minLength: event.target.value,
       goods: goodsFromServer.filter(good => (
-        good.length <= event.target.value)),
+        good.length >= event.target.value)),
     });
   }
 
   changeReverse = () => {
     this.setState(prewState => ({
-      goods: prewState.goods.reverse(),
+      goods: [...prewState.goods].reverse(),
     }));
   }
 
   resetDefolt = () => {
     this.setState({
       goods: goodsFromServer,
-      maxLength: 10,
+      minLength: 1,
     });
   }
 
   sortLength = () => {
     this.setState(prewState => ({
-      goods: prewState.goods
+      goods: [...prewState.goods]
         .sort((goodPrev, goodCurrent) => (
           goodPrev.length - goodCurrent.length)),
     }));
@@ -53,7 +53,7 @@ class App extends React.Component {
 
   sortAbc = () => {
     this.setState(prewState => ({
-      goods: prewState.goods
+      goods: [...prewState.goods]
         .sort((goodPrev, goodCurrent) => (
           goodPrev.localeCompare(goodCurrent))),
     }));
@@ -81,7 +81,7 @@ class App extends React.Component {
           <button onClick={this.changeReverse} type="button">reverse</button>
           <button onClick={this.sortAbc} type="button">sort ABC</button>
           <button onClick={this.sortLength} type="button">sort length</button>
-          <select onInput={this.changeLength} value={this.state.maxLength}>
+          <select onInput={this.changeLength} value={this.state.minLength}>
             {Array(10).fill('').map((item, index) => (
               <option value={index + 1}>{index + 1}</option>
             ))}
